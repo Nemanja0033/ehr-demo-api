@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employe {
+  id                String             @id @default(uuid())
+  name              String
+  surname           String?
+  email             String             @unique
+  password          String
+  role              String?
+  vacationDays      Int                @default(15)
+  sickLeave         Int                @default(20)
+  companyId         String
+  company           Company             @relation(fields: [companyId], references: [id])
+  vacationRequests  VacationRequest[]
+  sickLeaveRequests SickLeaveRequest[]
+}
+
+model Company {
+  id       String   @id @default(uuid())
+  name     String
+  size     Int      @default(20)
+  employes Employe[]
+  hrId     String   @unique
+  hr       Hr       @relation(fields: [hrId], references: [id])
+}
+
+model Hr {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  company  Company? // samo jedna kompanija
+}
+
+model VacationRequest {
+  id        String   @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("pending")
+  employeId String
+  employe   Employe  @relation(fields: [employeId], references: [id])
+}
+
+model SickLeaveRequest {
+  id        String   @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  reason    String?
+  status    String   @default("pending")
+  employeId String
+  employe   Employe  @relation(fields: [employeId], references: [id])
+}
