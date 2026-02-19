@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken'
 
 export async function registerEmploye(req, res) {
     try {
-        const { email, name, surname, password, role, companyId } = req.body;
+        const { email, name, surname, password, role } = req.body;
+        const companyId = req.companyId;
 
         if (!email || !name || !surname || !password || !role || !companyId) {
             res.status(400).json({ message: "All fields are required" });
@@ -73,6 +74,7 @@ export async function loginEmploye(req, res) {
 }
 
 
+// Handler for single employee for Employee alone.
 export const getMeEmploye = async (req, res) => {
     const user = await prisma.employe.findUnique({
         where: { id: req.user.userId },

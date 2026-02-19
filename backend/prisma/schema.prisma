@@ -28,7 +28,7 @@ model Company {
   size     Int      @default(20)
   employes Employe[]
   hrId     String   @unique
-  hr       Hr       @relation(fields: [hrId], references: [id])
+  hr       Hr?       @relation(fields: [hrId], references: [id])
 }
 
 model Hr {

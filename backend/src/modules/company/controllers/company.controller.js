@@ -2,21 +2,22 @@ import prisma from '../../../config/db.js';
 
 export async function createCompany(req, res){
     try{
+        console.log("USER FROM REQ IN CONTROLLER 3.", req.user)
         const { name } = req.body;
-        const { hrId } = req.hrId;
+        const userId = req.user.userId;
 
-        if(!name || !hrId){
+        if(!name || !userId){
             res.status(400).json({ message: "All fields are required"});
         }
 
         const company = await prisma.company.create({
             data: {
                 name,
-                hrId
+                hrId: userId
             }
         });
 
-        res.status(201).json({ message: "Company succesfully created"});
+        res.status(201).json({ company });
 
     }
     catch(err){
@@ -27,19 +28,19 @@ export async function createCompany(req, res){
 
 export async function getCompany(req, res){
     try{
-        const { hrId } = req.hrId;
+        const userId = req.user.userId;
 
-        if(!hrId){
+        if(!userId){
             res.status(400).json({ message: "HR id are required"});
         }
 
         const company = await prisma.company.findUnique({
             where: {
-                hrId
+                hrId: userId
             }
         })
 
-        res.status(200).json({ company });
+        res.status(200).json(company);
 
     }
     catch(err){

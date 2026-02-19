@@ -15,6 +15,7 @@ export const roleMiddleware = (reuiredRole) => {
         try {
             const decoded = jwt.verify(token, JWT_SECRET);
             const role = decoded.role;
+            console.log("JWT FROM THE ROLE MIDDLEWARE 2.", decoded);
 
             if (role === reuiredRole) {
                 next();
