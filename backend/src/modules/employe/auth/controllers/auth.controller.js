@@ -2,6 +2,8 @@ import prisma from '../../../../config/db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+const JWT_SECRET = process.env.JWT_SECRET
+
 export async function registerEmploye(req, res) {
     try {
         const { email, name, surname, password, role } = req.body;
