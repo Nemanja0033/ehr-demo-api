@@ -15,6 +15,6 @@ app.use('/api/employe/auth', employerAuthRoutes);
 
 app.use('/api/company', companyRoutes);
 app.use('/api/hr/employes', employeManagerRoutes);
-app.use('/api/employe/vacation', );
+app.use('/api/employe/vacation', employeVacationRequestRoutes);
 
 export default app;
