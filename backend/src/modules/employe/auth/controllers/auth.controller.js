@@ -68,7 +68,7 @@ export async function loginEmploye(req, res) {
             { expiresIn: '1d' }
         );
 
-        res.json({ token, email, name: employe.name })
+        res.json({ token, employe})
     }
     catch (err) {
         res.status(500).json({ error: err.message })
@@ -86,7 +86,7 @@ export const getMeEmploye = async (req, res) => {
             sickLeave: true,
             vacationDays: true,
             email: true,
-            role
+            role: true
         }
     })
 
