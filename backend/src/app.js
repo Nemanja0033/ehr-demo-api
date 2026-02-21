@@ -5,6 +5,7 @@ import employerAuthRoutes from '../src/modules/employe/auth/routes/auth.route.js
 import companyRoutes from '../src/modules/company/routes/company.routes.js'
 import employeManagerRoutes from '../src/modules/hr/employe-manager/routes/employe-manager.routes.js'
 import employeVacationRequestRoutes from '../src/modules/employe/vacation-request/routes/vacation-request.routes.js';
+import vacationReqReviewRoutes from '../src/modules/hr/vacation-request-review/routes/vacation-review.routes.js';
 
 const app = express();
 app.use(cors());
@@ -16,5 +17,6 @@ app.use('/api/employe/auth', employerAuthRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/hr/employes', employeManagerRoutes);
 app.use('/api/employe/vacation', employeVacationRequestRoutes);
+app.use('/api/hr/vacation', vacationReqReviewRoutes);
 
 export default app;
