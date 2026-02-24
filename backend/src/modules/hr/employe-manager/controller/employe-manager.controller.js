@@ -7,6 +7,10 @@ export async function getEmployes(req, res){
         const employees = await prisma.employe.findMany({
             where: {
                 companyId
+            },
+            include: {
+                vacationRequests: true,
+                sickLeaveRequests: true,
             }
         });
 
