@@ -53,6 +53,7 @@ model SickLeaveRequest {
   startDate DateTime
   endDate   DateTime
   reason    String?
+  sickType  String?
   status    String   @default("pending")
   employeId String
   employe   Employe  @relation(fields: [employeId], references: [id])
