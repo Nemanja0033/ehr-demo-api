@@ -83,7 +83,7 @@ export const getMeEmploye = async (req, res) => {
         select: {
             name: true,
             surname: true,
-            sickLeave: true,
+            sickLeaveDays: true,
             vacationDays: true,
             email: true,
             role: true

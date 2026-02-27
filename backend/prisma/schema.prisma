@@ -15,7 +15,7 @@ model Employe {
   password          String
   role              String?
   vacationDays      Int                @default(15)
-  sickLeave         Int                @default(20)
+  sickLeaveDays         Int                @default(20)
   companyId         String
   company           Company             @relation(fields: [companyId], references: [id])
   vacationRequests  VacationRequest[]
