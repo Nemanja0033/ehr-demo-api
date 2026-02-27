@@ -3,6 +3,7 @@ import prisma from "../../../config/db.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// HR ONLY MIDDLEWARE!
 export const companyIdMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 

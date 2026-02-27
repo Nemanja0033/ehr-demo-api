@@ -7,6 +7,7 @@ import employeManagerRoutes from '../src/modules/hr/employe-manager/routes/emplo
 import employeVacationRequestRoutes from '../src/modules/employe/vacation-request/routes/vacation-request.routes.js';
 import vacationReqReviewRoutes from '../src/modules/hr/vacation-request-review/routes/vacation-review.routes.js';
 import employeSickLeaveRqeustRoutes from '../../backend/src/modules/employe/sick-leave-request/routes/sick-leave-request.routes.js';
+import sickLeaveReportsRoute from '../src/modules/hr/sick-leave-reports/routes/sick-leave-reports.route.js';
 
 const app = express();
 app.use(cors());
@@ -21,5 +22,6 @@ app.use('/api/employe/vacation', employeVacationRequestRoutes);
 app.use('/api/hr/vacation', vacationReqReviewRoutes);
 
 app.use('/api/employe/sick-leave', employeSickLeaveRqeustRoutes);
+app.use('/api/hr/sick-leave', sickLeaveReportsRoute);
 
 export default app;
