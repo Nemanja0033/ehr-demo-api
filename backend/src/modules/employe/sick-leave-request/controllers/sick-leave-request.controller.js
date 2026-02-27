@@ -1,11 +1,12 @@
 import prisma from '../../../../config/db.js';
+import { io } from '../../../../server.js';
 
 export async function submitSickLeaveRequest(req, res){
     try{
         const { userId } = req.user;
         const { startDate, endDate, reason } = req.body;
 
-        await prisma.sickLeaveRequest.create({
+        const sickLeaveRequest = await prisma.sickLeaveRequest.create({
             data: {
                 employeId: userId,
                 startDate,
@@ -21,6 +22,15 @@ export async function submitSickLeaveRequest(req, res){
                     decrement: 5
                 }
             }
+        });
+
+        // Emit real time notification
+        io.emit("sickLeave:new", {
+            id: sickLeaveRequest.id,
+            employeId: userId,
+            startDate,
+            endDate,
+            reason
         })
 
         return res.status(201).json({ message: "Sick leave submited "})
