@@ -24,8 +24,31 @@ export async function submitSickLeaveRequest(req, res){
             }
         });
 
+        const user = await prisma.employe.findUnique({
+            where: { id: userId }
+        });
+
+        // Workaround find our HR email to target their ws room
+        const hr = await prisma.company.findUnique({
+            where: { id: user.companyId },
+            include: { hr: true }
+        });
+
+
         // Emit real time notification
-        io.emit("sickLeave:new", {
+        io.to(`user-${hr.hr.email}`).emit("notification:new", {
+            type: "SICK_LEAVE_REPORT",
+            body: {
+                id: sickLeaveRequest.id,
+                author: user,
+                subject: `${user.name} has submited sick leave.`,
+                timestamp: new Date(),
+            }
+        });
+
+
+        // Emit realtime data to the hr-sick-leave-report component
+        io.to(`user-${hr.hr.email}`).emit("sickLeave:new", {
             id: sickLeaveRequest.id,
             employeId: userId,
             startDate,

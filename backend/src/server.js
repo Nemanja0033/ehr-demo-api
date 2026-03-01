@@ -18,10 +18,13 @@ async function startServer() {
     });
 
     io.on('connection', (socket) => {
-      console.log("socket is on:", socket.id);
+      const { userEmail } = socket.handshake.auth;
+      if(userEmail){
+        socket.join(`user-${userEmail}`)
+        console.log(`user ${userEmail} is connected in room user-${userEmail}`);
+      }
     });
 
-    console.log("DB URL:", process.env.DATABASE_URL);
     await prisma.$connect();
     console.log("Connected to DB!");
 
