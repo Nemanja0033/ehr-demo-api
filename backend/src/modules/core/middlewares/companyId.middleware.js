@@ -16,7 +16,6 @@ export const companyIdMiddleware = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     const hrId = decoded.userId;
-    console.log("COMPANY MIDDLEWARE", decoded)
 
     const company = await prisma.company.findUnique({
       where: {
