@@ -1,4 +1,5 @@
 import prisma from '../../../../config/db.js';
+import { io } from '../../../../server.js';
 
 export async function submitVacationRequest(req, res){
     try{
@@ -21,8 +22,17 @@ export async function submitVacationRequest(req, res){
                 employeId: userId,
                 startDate,
                 endDate
+            },
+        });
+
+        const employe = await prisma.employe.findUnique({
+            where: {
+                id: userId
             }
         });
+
+        // WORKAROUND: hardcoded just for testing connection. will require hr-email
+        io.to(`user-${'antonijevicnemanja68@gmail.com'}`).emit("vacationRequest:new", {..._vacationRequest, employe});
 
         // deposit vacation days, if hr approve the req the days will be decremented, if not then back to normal.
         const _depositVacationDays = await prisma.employe.update({

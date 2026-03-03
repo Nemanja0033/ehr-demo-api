@@ -81,7 +81,11 @@ export async function reviewVacationRequest(req, res) {
                 subject: `HR has ${status} your vacation request.`,
                 timestamp: new Date()
             }
-        })
+        });
+
+        // Ping client to trigger refetch
+        // TODO: explore if there is other way to to this instead of web socket
+        io.to(`user-${employee.employe.email}`).emit("vacationRequest:updated", vacationRequest);
 
         return res.status(200).json({ message: "Request updated" })
     }
