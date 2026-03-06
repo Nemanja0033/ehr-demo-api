@@ -4,14 +4,39 @@ import { io } from '../../../../server.js';
 export async function getVacationRequests(req, res) {
     try {
         const companyId = req.companyId;
+        const { limit, page } = req.query;
 
         if (!companyId) {
             return res.status(400).json({ message: "Company id is required" });
         }
 
-        const vacationRequests = await prisma.vacationRequest.findMany({
+        const pageNumber = Number(page) || 1;
+        const limitNumber = Number(limit) || 10;
+
+        if (pageNumber < 1 || limitNumber < 1) {
+            return res.status(400).json({ message: "Invalid pagination parameters" });
+        }
+
+        const vacationRequestCount = await prisma.vacationRequest.count({
             where: {
-                // Nested where caluse to relation
+                employe: {
+                    companyId: companyId
+                }
+            },
+        });
+
+        const allPages = Math.ceil(vacationRequestCount / limitNumber);
+
+        const pages = [];
+
+        for(let i = 0; i < allPages; i++){
+            pages.push(i + 1);
+        }
+
+        const vacationRequests = await prisma.vacationRequest.findMany({
+            skip: (pageNumber - 1) * limitNumber,
+            take: limitNumber,
+            where: {
                 employe: {
                     companyId: companyId
                 }
@@ -21,15 +46,16 @@ export async function getVacationRequests(req, res) {
             }
         });
 
+        if (vacationRequests.length === 0) {
+            return res.status(404).json({ message: "No vacation requests found" });
+        }
 
-        if (!vacationRequests) {
-            return res.status(404).json({ message: "Company not found" });
-        };
+        return res.status(200).json({
+            vacationRequests,
+            pages
+        });
 
-        return res.status(200).json(vacationRequests)
-
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
     }
