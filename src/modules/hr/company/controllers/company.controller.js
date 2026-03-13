@@ -1,13 +1,12 @@
-import prisma from '../../../config/db.js';
+import prisma from '../../../../config/db.js';
 
 export async function createCompany(req, res){
     try{
-        console.log("USER FROM REQ IN CONTROLLER 3.", req.user)
         const { name } = req.body;
         const userId = req.user.userId;
 
         if(!name || !userId){
-            res.status(400).json({ message: "All fields are required"});
+            return res.status(400).json({ message: "All fields are required"});
         }
 
         const company = await prisma.company.create({
@@ -22,7 +21,7 @@ export async function createCompany(req, res){
     }
     catch(err){
         console.error(err);
-        res.status(500).json({ message: "Internal server error"});
+        return res.status(500).json({ message: "Internal server error"});
     }
 }
 
