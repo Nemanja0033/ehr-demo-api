@@ -1,7 +1,7 @@
 import express from 'express';
-import { authMiddleware } from '../../../core/middlewares/auth.middleware.js';
-import { roleMiddleware } from '../../../core/middlewares/role.middleware.js';
-import { companyIdMiddleware } from '../../../core/middlewares/companyId.middleware.js';
+import { authMiddleware } from '../../../../middlewares/auth.middleware.js';
+import { roleMiddleware } from '../../../../middlewares/role.middleware.js';
+import { companyIdMiddleware } from '../../../../middlewares/companyId.middleware.js';
 import { getVacationRequests, reviewVacationRequest } from '../controllers/vacation-review.controller.js';
 
 const router = express.Router();
