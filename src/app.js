@@ -8,10 +8,13 @@ import employeVacationRequestRoutes from './modules/employe/vacation-request/rou
 import vacationReqReviewRoutes from './modules/hr/vacation-request-review/routes/vacation-review.routes.js';
 import employeSickLeaveRqeustRoutes from './modules/employe/sick-leave-request/routes/sick-leave-request.routes.js';
 import sickLeaveReportsRoute from './modules/hr/sick-leave-reports/routes/sick-leave-reports.route.js';
+import { swaggerUi, specs } from './swagger.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/api/hr/auth',  hrAuthRoutes);
 app.use('/api/hr/employes', employeManagerRoutes);
