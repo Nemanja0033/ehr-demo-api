@@ -63,7 +63,7 @@ export async function getVacationRequests(req, res) {
 
 export async function reviewVacationRequest(req, res) {
     try {
-        const { status, requestId, requestedDays } = req.body;
+        const { status, id: requestId, requestedDays } = req.body;
 
         const vacationRequest = await prisma.vacationRequest.update({
             where: {
